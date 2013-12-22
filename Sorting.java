@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /*
  * Class for providing implementations of sorting algorithms.
@@ -9,18 +10,26 @@ import java.util.Arrays;
  * bubbleSort : O(n^2) expected time, O(n) best time. O(1) space.
  * quickSort : O(nlogn) expected/best time, O(n^2) worst time. O(1) space.
  * mergeSort : O(nlogn) expected/best/worst time, approx. O(n) space.
+ * heapSort : O(nlogn) expected/best/worst time, approx. O(n) space.
+ * combSort : O(n^2) expected time, O(n) best time. O(1) space.
  * special_bin : O(n) time. O(n) space. Returns new array.
  * 
  * Standards
  * Sorting algorithms operate on input array between low and high bounds,
  * inclusive of low but exclusive of high. 
  * Implementations are generic to allow for flexibility.
+ * 
+ * There are no restrictions on using this class in your projects.
+ * 
+ * Author : Luke Benning
+ * Last Edited : 12/22/2013
  */
 public class Sorting {
 	
 	/*
 	 * Insertion Sort algorithm.
 	 * Edits the input array.
+	 * Very fast if input nearly sorted.
 	 * Time Complexity: O(n^2) expected, O(n) best.
 	 * Space Complexity: O(1).
 	 */
@@ -107,6 +116,7 @@ public class Sorting {
 	/*
 	 * Quicksort implementation with optimization to use insertion sort when
 	 * the sub arrays get to a length less than or equal to 10.
+	 * Very fast in practice.
 	 * Time Complexity: O(nlogn) expected & best, O(n^2) worst.
 	 * Space Complexity: O(1).
 	 */
@@ -133,6 +143,48 @@ public class Sorting {
 		T[] sorted = rangeMerge(Arrays.copyOfRange(input, low, high));
 		System.arraycopy(sorted, 0, input, low, sorted.length);
 	} 
+	
+	/*
+	 * Heapsort implementation. Edits the input array.
+	 * Time Complexity: O(nlogn) best, expected & worst cases.
+	 * Space Complexity : O(n) expected.
+	*/ 
+	public static <T extends Comparable<T>> void heapSort(T[] input, int low, int high) {
+		if (input == null || input.length <= 0 || high-low <= 1 ||
+				low < 0 || high > input.length) { return; }
+		PriorityQueue<T> store = new PriorityQueue<T>();
+		for (int i = low; i < high; i++) {
+			store.add(input[i]);
+		}
+		for (int i = low; i < high; i++) {
+			input[i] = store.poll();
+		}
+	}
+	
+	/*
+	 * Combsort Implementation.
+	 * Improves upon bubble sort.
+	 * Edits the input array.
+	 * Time Complexity: O(n^2) expected , Ω(n^2) worst, O(n) best.
+	 * Space Complexity: O(1).
+	 */
+	public static <T extends Comparable<T>> void combSort(T[] input, int low, int high) {
+		if (input == null || input.length <= 0 || high-low <= 1 ||
+				low < 0 || high > input.length) { return; }
+		int gap_size = input.length;
+		boolean swapped = true;
+		while (gap_size > 1 || swapped == true) {
+			gap_size = (int)(gap_size / 1.3);
+			if (gap_size < 1) { gap_size = 1; }
+			swapped = false;
+			for (int x = 0; x + gap_size < input.length; x++) {
+				if (input[x+gap_size].compareTo(input[x]) < 0) {
+					swap(input,x,x+gap_size);
+					swapped = true;
+				}
+			}
+		}
+	}
 
 	
 	//******************************Special Algorithms****************************************//
@@ -162,7 +214,7 @@ public class Sorting {
 	/*
 	 * Partitions the input array around its first, middle and last elements.
 	*/ 
-	public static <T extends Comparable<T>> int partition(T[] input,int low,int high) {
+	private static <T extends Comparable<T>> int partition(T[] input,int low,int high) {
 		if (input == null || input.length == 0 || high - low <= 1 ||
 		low < 0 || high > input.length) { return 0; }
 		swap(input,findMedian(input,low,high),high); // Put median at end of array
@@ -184,7 +236,7 @@ public class Sorting {
 	 * Finds the index of the median of the first,
 	 * middle and last elements of the input array.
 	 */
-	public static <T extends Comparable<T>> int findMedian(T[] input,int low,int high) {
+	private static <T extends Comparable<T>> int findMedian(T[] input,int low,int high) {
 		if (input == null) { return 0; }
 		else if (high - low <= 1) { return low; }
 		else {
@@ -257,7 +309,7 @@ public class Sorting {
 	/*
 	 * Swaps two elements in the array at the given indices.
 	 */
-	public static <T extends Comparable<T>> void swap(T[] input, int indexa, int indexb) {
+	private static <T extends Comparable<T>> void swap(T[] input, int indexa, int indexb) {
 		if (input == null || input.length == 1 || indexa == indexb) { return; }
 		T temp = input[indexa];
 		input[indexa] = input[indexb];
