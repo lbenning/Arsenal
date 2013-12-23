@@ -3,7 +3,8 @@ import java.util.PriorityQueue;
 
 /*
  * Class for providing implementations of sorting algorithms.
- * Overview:
+ * 
+ * Complexity Overview:
  * insertionSort : O(n^2) expected time, O(n) best time. O(1) space.
  * selectionSort : O(n^2) all cases time. O(1) space.
  * gnomeSort : O(n^2) expected time, O(n) best time. O(1) space.
@@ -12,9 +13,10 @@ import java.util.PriorityQueue;
  * mergeSort : O(nlogn) expected/best/worst time, approx. O(n) space.
  * heapSort : O(nlogn) expected/best/worst time, approx. O(n) space.
  * combSort : O(n^2) expected time, O(n) best time. O(1) space.
+ * introSort : O(nlogn) time, O(logn) space. 
  * special_bin : O(n) time. O(n) space. Returns new array.
  * 
- * Standards
+ * Standards:
  * Sorting algorithms operate on input array between low and high bounds,
  * inclusive of low but exclusive of high. 
  * Implementations are generic to allow for flexibility.
@@ -121,7 +123,7 @@ public class Sorting {
 	 * Space Complexity: O(1).
 	 */
 	public static <T extends Comparable<T>> void quickSort(T[] input,int low,int high) {
-		if (input == null || input.length == 0 || high-low <= 0 ||
+		if (input == null || input.length == 0 || high-low <= 1 ||
 				low < 0 || high > input.length) { return; }
 		if (high - low <= 10) { 
 			insertionSort(input,low,high);
@@ -129,7 +131,7 @@ public class Sorting {
 		else {
 			int k = partition(input,low,high);		
 			quickSort(input,low,k-1);
-			quickSort(input,k+1,high); }
+			quickSort(input,k,high); }
 	} 
 	
 	/*
@@ -185,7 +187,20 @@ public class Sorting {
 			}
 		}
 	}
-
+	
+	/*
+	 * Introsort implementation.
+	 * Hybrid of quicksort and heapsort.
+	 * Edits the input array.
+	 * Time Complexity: O(nlogn) all cases.
+	 * Space Complexity : O(logn).
+	 */
+	public static <T extends Comparable<T>> void introSort(T[] input, int low, int high) {
+		if (input == null || input.length <= 0 || high-low <= 1 ||
+				low < 0 || high > input.length) { return; }
+		int depth = (int)(2.0 * (Math.log(input.length) / Math.log(2)));
+		introRunner(input,low,high,depth);
+	}
 	
 	//******************************Special Algorithms****************************************//
 	
@@ -217,8 +232,8 @@ public class Sorting {
 	private static <T extends Comparable<T>> int partition(T[] input,int low,int high) {
 		if (input == null || input.length == 0 || high - low <= 1 ||
 		low < 0 || high > input.length) { return 0; }
-		swap(input,findMedian(input,low,high),high); // Put median at end of array
-		T median = input[high];
+		swap(input,findMedian(input,low,high-1),high-1); // Put median at end of array
+		T median = input[high-1];
 		int divider = low;
 		for (int k = low; k < high; k++) {
 		  if (input[k].compareTo(median) <= 0)  {
@@ -226,7 +241,7 @@ public class Sorting {
 			  divider++;
 		  }
 		}
-		swap(input,divider,high);
+		swap(input,divider,high-1);
 		return divider;
 	} 
 	
@@ -305,6 +320,21 @@ public class Sorting {
 		}
 		return merger;
 	} 
+	
+	/*
+	 * Helper function for introsort. Switches over to heapsort when depth = 0.
+	 */
+	private static <T extends Comparable<T>> void introRunner(T[] input,int low,int high, int depth) {
+		if (input == null || input.length == 0 || high-low <= 1 ||
+				low < 0 || high > input.length) { return; }		
+		if (depth <= 0) { 
+			heapSort(input,low,high);
+		} 
+		else {
+			int k = partition(input,low,high);
+			introRunner(input,low,k-1,depth-1);
+			introRunner(input,k,high,depth-1); }
+	}
 	
 	/*
 	 * Swaps two elements in the array at the given indices.
