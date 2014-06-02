@@ -28,6 +28,9 @@ import java.util.PriorityQueue;
  */
 public class Sorting {
 	
+	// Suppress default constructor to prevent instantiation
+	private Sorting() {}
+	
 	/*
 	 * Insertion Sort algorithm.
 	 * Edits the input array.
