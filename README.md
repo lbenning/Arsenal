@@ -1,10 +1,4 @@
 Arsenal
 =======
 
-Contains useful functions.
-
-Files:
-
-Sorting - Contains several sorting algorithms.
-
-Searching - Contains several search algorithms.
+Contains useful algorithms and data structures.
