@@ -17,7 +17,7 @@ public class Medians {
 		int[] tst = {-5,5,4,-4,3,-3,2,-2,1,-1,0};
 		for (int x = 0; x < tst.length; x++) {
 			int y = medianOfMedians(tst,x);
-			System.out.println("The " + x + "th elmt. is " + y);
+			System.out.println("The " + x + " elmt. is " + y);
 		}
 	}
 	
