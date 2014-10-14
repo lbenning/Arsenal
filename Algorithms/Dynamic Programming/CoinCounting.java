@@ -3,9 +3,16 @@
 * both combination and permutation versions
 *
 */
-public class CoinCounting
+public class CoinCounting  {
 
   private CoinCounting() {}
+  
+  public static void main(String[] args) {
+	  int[] input = {6,4,10,44,1,51};
+	  int target = 5;
+	  System.out.println(countCombinations(input,target));
+	  System.out.println(countPermutations(input,target));
+  }
 
   /**
   * Combinations - Count number of combinations to pick coins to
@@ -49,3 +56,10 @@ public class CoinCounting
     }
     return memo[target];
   }
+  
+  private static int min(int x, int y) {
+		if (x < y) { return x; }
+		return y;
+	}
+  
+}
