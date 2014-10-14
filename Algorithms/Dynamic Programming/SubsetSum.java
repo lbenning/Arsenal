@@ -1,8 +1,5 @@
 /**
 * Decision version of subset sum.
-*
-* Returns whether or not there exists a subset of the
-* input that sums to target.
 */
 public boolean subsetSum(int[] input, int target) {
 	if (target < 0 || input == null || input.length == 0) {

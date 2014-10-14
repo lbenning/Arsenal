@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+* Dynamic program for separating a string into words from a predefined
+* set.
+*/ 
 public class BrokenStrings {
 
 	private BrokenStrings() {}

@@ -1,3 +1,6 @@
+/**
+* Decision version of knapsack
+*/
 public class KnapSack {
 
 	private KnapSack() {}
