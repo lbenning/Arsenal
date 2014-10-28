@@ -200,7 +200,7 @@ public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
  /**
  * Removes SplayNode s from the Splay Tree
  */
- public void deleteNode(SplayNode s) {
+ private void deleteNode(SplayNode s) {
    if (s == null) { return; }
    if (isLeaf(s)) {
      nullifyParent(s);
