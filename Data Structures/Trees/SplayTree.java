@@ -4,25 +4,23 @@
 * amortized O(logn) time for a tree on n nodes. Every node
 * is uniquely identified by a key (no duplicates in tree),
 * and these keys map to corresponding values.
-* 
-* Implementation by Luke Benning
-* Last Updated : October 27, 2014
 */
-public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
+public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> implements Tree {
 
  private SplayNode root;
+ private int size;
+
+ public SplayTree() {}
 
  public SplayTree(K key, V value) {
   root = new SplayNode(key,value);
+  size += 1;
  }
 
- /**
-  * Inserts a new SplayNode with the specified key
-  * and value into the Splay Tree
-  */
  public void insert(K key, V value) {
   if (key != null) {
     if (root == null) {
+     size += 1;
      root = new SplayNode(key,value);
     }
     else {
@@ -31,12 +29,7 @@ public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
    }
  }
 
- /**
-  * Returns the value of the SplayNode with the
-  * specified key, returns null if there is no
-  * SplayNode in the Splay Tree with the given key
-  */
- public V getValue(K key) {
+ public V find(K key) {
   if (key == null) { return null; }
   SplayNode found = recursiveSearch(key, root);
   if (found == null) {
@@ -46,14 +39,20 @@ public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
   return found.value;
  }
 
- /**
-  * Removes the SplayNode with the specified key from
-  * the Splay Tree
-  */
- public void removeKey(K key) {
+ public void delete(K key) {
   if (key == null) { return; }
   recursiveRemoval(key, root);
  }
+
+ public boolean isEmpty() {
+  return root == null;
+ }
+
+ public int size() {
+  return size;
+ }
+
+ // ---------------------- Tree Specific Operations --------------------- \\
 
  private void splay(SplayNode s) {
   // Null & Root Cases
@@ -163,6 +162,7 @@ public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
   if (key.compareTo(current.key) < 0) {
    if (current.left == null) {
     current.left = new SplayNode(key, value);
+    size += 1;
     current.left.parent = current;
    }
    else {
@@ -172,6 +172,7 @@ public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
   else if (key.compareTo(current.key) > 0) {
    if (current.right == null) {
     current.right = new SplayNode(key, value);
+    size += 1;
     current.right.parent = current;
    }
    else {
@@ -188,6 +189,7 @@ public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
   if (current == null) { return; }
   if (key.equals(current.key)) {
    deleteNode(current);
+   size -= 1;
   }
   else if (key.compareTo(current.key) < 0) {
    recursiveRemoval(key, current.left);
@@ -224,8 +226,8 @@ public class SplayTree<K extends Comparable<K>,V extends Comparable<V>> {
     deleteNode(z);
    }
  }
- 
- //////////////////// Helper Methods //////////////////////////////////////
+
+
 
  /**
  * Copies the key value data from SplayNode z into
