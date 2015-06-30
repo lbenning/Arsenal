@@ -9,10 +9,10 @@ public class UnionFind {
   private final boolean[] isRoots;
   private final int[] sizes;
   private int components;
-	
-	// makes a new union find set with all elements
-	// by default in their own component
-	private UnionFind(int n) {
+  
+  // makes a new union find set with all elements
+  // by default in their own component
+  private UnionFind(int n) {
     ptrs = new int[n];
     isRoots = new boolean[n];
     sizes = new int[n];
@@ -22,29 +22,29 @@ public class UnionFind {
       isRoots[x] = true;
     }
     components = n;
-	}
+  }
 
   // static factory method - only construct a
   // Union Find object if the size is valid
-	public static UnionFind makeSet(int n) {
-		if (n > 0) {
+  public static UnionFind makeSet(int n) {
+    if (n > 0) {
       UnionFind set = new UnionFind(n);
       return set;
     }
     return null;
-	}
+  }
 
   // among two trees of x and y, merges the smaller
   // tree into the larger tree
-	public void union(int x, int y) {
+  public void union(int x, int y) {
      if (x >= 0 && x < ptrs.length && y >= 0 &&
       y < ptrs.length && find(x) != find(y)) {
         // merge the roots
         while (!isRoots[x]) {
-        	x = ptrs[x];
+          x = ptrs[x];
         }
         while (!isRoots[y]) {
-        	y = ptrs[y];
+          y = ptrs[y];
         }
         if (sizes[x] >= sizes[y]) {
           ptrs[y] = x;
@@ -60,23 +60,23 @@ public class UnionFind {
         // the total number of components by one
         components--;
       }
-	}
+  }
 
   // returns root label of element x
-	public int find(int x) {
+  public int find(int x) {
     if (x >= 0 && x < ptrs.length) {
       if (isRoots[x]) {
-      	return x;
+        return x;
       }
       ptrs[x] = find(ptrs[x]);
       return ptrs[x];
     }
     return -1;
-	}
+  }
 
-	// return the number of connected components
-	public int getComponentCount() {
-	  return this.components;
-	}
+  // return the number of connected components
+  public int getComponentCount() {
+    return this.components;
+  }
 
 }
