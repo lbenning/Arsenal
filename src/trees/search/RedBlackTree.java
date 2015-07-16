@@ -7,7 +7,7 @@
 */
 public class RedBlackTree<K extends Comparable<K>,V extends Comparable<V>> implements MambaTree<K,V> {
 
-	private K key;
+  private K key;
   private V value;
 
   private RedBlackTree<K,V> left;
@@ -16,7 +16,7 @@ public class RedBlackTree<K extends Comparable<K>,V extends Comparable<V>> imple
 
   private int color;
 
-	public RedBlackTree() {}
+  public RedBlackTree() {}
 
   private RedBlackTree(K key, V value, RedBlackTree<K,V> parent, int color) {
     this.key = key;
@@ -25,7 +25,7 @@ public class RedBlackTree<K extends Comparable<K>,V extends Comparable<V>> imple
     this.color = color;
   }
 
-	public void insert(K key, V value) {
+  public void insert(K key, V value) {
     if (key == null || this.parent != null) { return; }
     if (this.key == null) {
       this.key = key;
@@ -61,13 +61,13 @@ public class RedBlackTree<K extends Comparable<K>,V extends Comparable<V>> imple
     verifyRoot();
   }
 
-	public V find(K key) {
+  public V find(K key) {
     if (key == null || this.key == null || this.parent != null) { return null; }
     RedBlackTree<K,V> runner = findNode(key);
     return runner != null ? runner.value : null;
-	}
+  }
 
-	public void delete(K key) {
+  public void delete(K key) {
     if (key == null || this.key == null || this.parent != null) { return; }
     RedBlackTree<K,V> runner = findNode(key);
     if (runner != null) {
@@ -86,9 +86,9 @@ public class RedBlackTree<K extends Comparable<K>,V extends Comparable<V>> imple
     verifyRoot();
   }
 
-	public boolean isEmpty() {
-		return key == null;
-	}
+  public boolean isEmpty() {
+    return key == null;
+  }
 
   public K getKey() {
     return key;
@@ -162,7 +162,7 @@ public class RedBlackTree<K extends Comparable<K>,V extends Comparable<V>> imple
   /**
   * Find the RedBlackTree<K,V> whose key matches the given key
   */
-	private RedBlackTree<K,V> findNode(K key) {
+  private RedBlackTree<K,V> findNode(K key) {
     RedBlackTree<K,V> runner = this;
     while (runner != null) {
       if (runner.key.compareTo(key) == 0) {
