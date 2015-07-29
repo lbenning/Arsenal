@@ -5,11 +5,18 @@ provide a set of high quality data structure implementations that are lightweigh
 and support the common operations. The design document in /doc describes Black
 Mamba and the choices that went into its construction in more detail.
 
+## Status
+
+The following data structures are completed :
+
+General : Union Find, Fenwick trees
+Trees : Red Black, AVL, Splay, Treap, BB Alpha, Scapegoat
+
 ## Author
 
 Luke Benning - lab292@cornell.edu
 
-* Any general comments or details on a bug are greatly appreciated and can be sent to the above email.
+* Any feedback or general comments are greatly appreciated and can be sent to the above email address.
 
 ## License
 
